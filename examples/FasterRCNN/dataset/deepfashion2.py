@@ -11,7 +11,7 @@ from sklearn.model_selection import train_test_split
 from tensorpack.utils import logger
 from tensorpack.utils.timer import timed_operation
 
-# from config import config as cfg
+from config import config as cfg
 from dataset import DatasetRegistry, DatasetSplit
 
 
@@ -45,7 +45,7 @@ def _get_bb(img_path, anno_path, heavy_check=False):
             y_bot = float(bb[1])
         boxes.append([x_top, y_top, x_bot, y_bot])
         classes.append(_category_id_to_class_id(obj['category_id']))
-    return np.array(boxes), np.array(classes)
+    return np.array(boxes, dtype=np.float32), np.array(classes)
 
 
 class DeepFashion2Detection(DatasetSplit):
@@ -55,13 +55,14 @@ class DeepFashion2Detection(DatasetSplit):
     To use your own dataset that's not in COCO format, write a subclass that
     implements the interfaces.
     """
-    class_name = ['top', 'bottom', 'long']
+    class_names = ['top', 'bottom', 'long']
+    cfg.DATA.CLASS_NAMES = ["BG"] + class_names
 
     def __init__(self, root_path, split):
         self.split = split
         self.data_path = os.path.join(root_path, split)
 
-    def _load(self, load_anno=True, heavy_check=False):    
+    def _load(self, load_anno=True, heavy_check=False):
         all_imgs = glob.glob(os.path.join(self.data_path, 'image', '*.jpg'))
         images_list = []
         annos_list = []
@@ -120,7 +121,7 @@ class DeepFashion2Detection(DatasetSplit):
 
             Include this field only if training Mask R-CNN.
         """
-        return self._load(self.split)
+        return self._load()
 
 
     def inference_roidbs(self):
@@ -134,7 +135,7 @@ class DeepFashion2Detection(DatasetSplit):
             file_name (str): full path to the image
             image_id (str): an id for the image. The inference results will be stored with this id.
         """
-        return self._load(self.split, load_anno=False)
+        return self._load(load_anno=False)
 
 
     def eval_inference_results(self, results, output=None):
