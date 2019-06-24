@@ -83,11 +83,11 @@ _C.MODE_MASK = False        # FasterRCNN or MaskRCNN
 _C.MODE_FPN = False
 
 # dataset -----------------------
-_C.DATA.BASEDIR = '/Users/linus/techainer/DeepFashion/DeepFashion2/'
+_C.DATA.BASEDIR = '/home/linus/DeepFashion2_modified'
 # All TRAIN dataset will be concatenated for training.
-_C.DATA.TRAIN = ('train')   # i.e. trainval35k, AKA train2017
+_C.DATA.TRAIN = ('train',)   # i.e. trainval35k, AKA train2017
 # Each VAL dataset will be evaluated separately (instead of concatenated)
-_C.DATA.VAL = ('val', 'test')  # AKA val2017
+_C.DATA.VAL = ('val',)  # AKA val2017
 # This two config will be populated later by the dataset loader:
 _C.DATA.NUM_CATEGORY = 3  # without the background class (e.g., 80 for COCO)
 _C.DATA.CLASS_NAMES = ['top', 'bottom', 'long']  # NUM_CLASS (NUM_CATEGORY+1) strings, the first is "BG".
@@ -96,7 +96,7 @@ _C.DATA.ABSOLUTE_COORD = True
 # Number of data loading workers.
 # In case of horovod training, this is the number of workers per-GPU (so you may want to use a smaller number).
 # Set to 0 to disable parallel data loading
-_C.DATA.NUM_WORKERS = 10
+_C.DATA.NUM_WORKERS = 12
 
 # backbone ----------------------
 _C.BACKBONE.WEIGHTS = ''   # /path/to/weights.npz
