@@ -79,18 +79,18 @@ _C = config     # short alias to avoid coding
 
 # mode flags ---------------------
 _C.TRAINER = 'replicated'  # options: 'horovod', 'replicated'
-_C.MODE_MASK = True        # FasterRCNN or MaskRCNN
+_C.MODE_MASK = False        # FasterRCNN or MaskRCNN
 _C.MODE_FPN = False
 
 # dataset -----------------------
-_C.DATA.BASEDIR = '/path/to/your/DATA/DIR'
+_C.DATA.BASEDIR = '/Users/linus/techainer/DeepFashion/DeepFashion2/'
 # All TRAIN dataset will be concatenated for training.
-_C.DATA.TRAIN = ('coco_train2014', 'coco_valminusminival2014')   # i.e. trainval35k, AKA train2017
+_C.DATA.TRAIN = ('train')   # i.e. trainval35k, AKA train2017
 # Each VAL dataset will be evaluated separately (instead of concatenated)
-_C.DATA.VAL = ('coco_minival2014', )  # AKA val2017
+_C.DATA.VAL = ('val', 'test')  # AKA val2017
 # This two config will be populated later by the dataset loader:
-_C.DATA.NUM_CATEGORY = 80  # without the background class (e.g., 80 for COCO)
-_C.DATA.CLASS_NAMES = []  # NUM_CLASS (NUM_CATEGORY+1) strings, the first is "BG".
+_C.DATA.NUM_CATEGORY = 3  # without the background class (e.g., 80 for COCO)
+_C.DATA.CLASS_NAMES = ['top', 'bottom', 'long']  # NUM_CLASS (NUM_CATEGORY+1) strings, the first is "BG".
 # whether the coordinates in the annotations are absolute pixel values, or a relative value in [0, 1]
 _C.DATA.ABSOLUTE_COORD = True
 # Number of data loading workers.
@@ -130,10 +130,10 @@ _C.TRAIN.STARTING_EPOCH = 1  # the first epoch to start with, useful to continue
 # the base learning rate are computed from BASE_LR and LR_SCHEDULE.
 # Therefore, there is *no need* to modify the config if you only change the number of GPUs.
 
-_C.TRAIN.LR_SCHEDULE = [120000, 160000, 180000]      # "1x" schedule in detectron
+# _C.TRAIN.LR_SCHEDULE = [120000, 160000, 180000]      # "1x" schedule in detectron
 # _C.TRAIN.LR_SCHEDULE = [240000, 320000, 360000]      # "2x" schedule in detectron
 # Longer schedules for from-scratch training (https://arxiv.org/abs/1811.08883):
-# _C.TRAIN.LR_SCHEDULE = [960000, 1040000, 1080000]    # "6x" schedule in detectron
+_C.TRAIN.LR_SCHEDULE = [960000, 1040000, 1080000]    # "6x" schedule in detectron
 # _C.TRAIN.LR_SCHEDULE = [1500000, 1580000, 1620000]   # "9x" schedule in detectron
 _C.TRAIN.EVAL_PERIOD = 25  # period (epochs) to run evaluation
 

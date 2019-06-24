@@ -10,7 +10,7 @@ from tensorpack import *
 from tensorpack.tfutils import collect_env_info
 from tensorpack.tfutils.common import get_tf_version_tuple
 
-from dataset import register_coco
+from dataset import register_deep_fashion_2
 from config import config as cfg
 from config import finalize_configs
 from data import get_train_dataflow
@@ -42,7 +42,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     if args.config:
         cfg.update_args(args.config)
-    register_coco(cfg.DATA.BASEDIR)  # add COCO datasets to the registry
+    register_deep_fashion_2(cfg.DATA.BASEDIR)  # add DeepFashion2 datasets to the registry
 
     # Setup logger ...
     is_horovod = cfg.TRAINER == 'horovod'
